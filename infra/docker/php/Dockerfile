@@ -34,6 +34,16 @@ RUN <<EOF
   composer config -g repos.packagist composer https://packagist.org
 EOF
 
+# === ここから追加 ===
+# Node.jsのバージョンを指定してインストール
+ARG NODE_VERSION=20.x
+RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION | bash - \
+  && apt-get update \
+  && apt-get install -y nodejs \
+  && apt-get clean \
+  && npm install -g npm@10.2.4
+# === ここまで追加 ===
+
 FROM base AS development
 
 RUN <<EOF
